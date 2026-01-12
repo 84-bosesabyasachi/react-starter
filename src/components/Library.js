@@ -8,8 +8,7 @@ const Library = ({songs})=> {
             <div className = "library-songs">
                  {songs.map((song)=> (
                     <LibrarySong 
-                    song={song} 
-                    />
+                     song={song} />
                 ))}
             </div>
         </div>
