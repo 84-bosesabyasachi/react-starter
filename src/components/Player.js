@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlay,faAngleLeft, faAngleRight, faPause} from '@fortawesome/free-solid-svg-icons';
 
@@ -25,7 +25,7 @@ const Player = ({audioRef, currentSong, isPlaying, setIsPlaying, songInfo, setSo
         audioRef.current.currentTime = e.target.value;
         setSongInfo({...songInfo, currentTime: e.target.value});
     };
-    //state
+    
    
     return(
         <div className= "Player">
