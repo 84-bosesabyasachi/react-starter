@@ -2,7 +2,7 @@ import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlay,faAngleLeft, faAngleRight, faPause} from '@fortawesome/free-solid-svg-icons';
 
-const Player = ({audioRef, currentSong, isPlaying, setIsPlaying, songInfo, setSongInfo})=> {
+const Player = ({audioRef, currentSong, isPlaying, setIsPlaying, songInfo, setSongInfo, songs, setCurrentSong})=> {
     
     
     //event handlers
@@ -25,7 +25,21 @@ const Player = ({audioRef, currentSong, isPlaying, setIsPlaying, songInfo, setSo
         audioRef.current.currentTime = e.target.value;
         setSongInfo({...songInfo, currentTime: e.target.value});
     };
-    
+    const skipTrackHandler = (direction)=> {
+         let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
+            if(direction === 'skip-forward'){
+                setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+            }
+            if(direction === 'skip-back'){
+                if((currentIndex - 1) % songs.length === -1){
+                    setCurrentSong(songs[songs.length -1]);
+                    if(isPlaying) audioRef.current.play();
+                    return;
+                }
+
+                setCurrentSong(songs[(currentIndex - 1) % songs.length]);
+            }
+    };
    
     return(
         <div className= "Player">
@@ -41,7 +55,7 @@ const Player = ({audioRef, currentSong, isPlaying, setIsPlaying, songInfo, setSo
             <p>{getTime(songInfo.duration)}</p>
         </div>
         <div className="play-control">
-            <FontAwesomeIcon
+            <FontAwesomeIcon onClick={()=> skipTrackHandler('skip-back')}
              className="skip-back" 
              size="2x" 
               icon={faAngleLeft} 
@@ -56,7 +70,7 @@ const Player = ({audioRef, currentSong, isPlaying, setIsPlaying, songInfo, setSo
             className="skip-forward" 
             size="2x"
              icon={faAngleRight}
-              
+              onClick={()=> skipTrackHandler('skip-forward')}
               />
             </div>
             
